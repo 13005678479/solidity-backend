@@ -17,6 +17,7 @@ contract Voting {
     // 记录候选人是否已在数组中，避免重复添加
     mapping (address => bool) public isCandidate;
 
+      //external 是函数可见性修饰符之一，用于限制函数的调用范围
       // 投票函数：允许用户给指定候选人投票
       function vote (address candidate) external  {
          // 每次投票给候选人的得票数加1
