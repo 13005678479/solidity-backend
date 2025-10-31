@@ -6,3 +6,10 @@
 
 2、✅ 反转字符串 (Reverse String)
 题目描述：反转一个字符串。输入 "abcde"，输出 "edcba"
+
+3、✅  用 solidity 实现整数转罗马数字
+
+✅  用 solidity 实现罗马数字转数整数
+
+✅  合并两个有序数组 (Merge Sorted Array)
+题目描述：将两个有序数组合并为一个有序数组。
