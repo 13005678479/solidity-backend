@@ -9,7 +9,10 @@
 
 3、✅  用 solidity 实现整数转罗马数字
 
-✅  用 solidity 实现罗马数字转数整数
+4、✅  用 solidity 实现罗马数字转数整数
 
-✅  合并两个有序数组 (Merge Sorted Array)
+5、✅  合并两个有序数组 (Merge Sorted Array)
 题目描述：将两个有序数组合并为一个有序数组。
+
+6、✅  二分查找 (Binary Search)
+题目描述：在一个有序数组中查找目标值。
