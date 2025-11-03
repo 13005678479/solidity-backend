@@ -33,3 +33,5 @@ function returnMultiple() public pure returns(uint256, bool, uint256[3] memory){
 }
 
 Solidity中变量按作用域划分有三种，分别是状态变量（state variable），局部变量（local variable）和全局变量(global variable)
+
+Solidity中两个关键字，constant（常量）和immutable（不变量），让不应该变的变量保持不变。这样的做法能在节省gas的同时提升合约的安全性
