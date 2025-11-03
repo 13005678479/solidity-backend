@@ -31,3 +31,5 @@ return：用于函数主体中，返回指定的变量。
 function returnMultiple() public pure returns(uint256, bool, uint256[3] memory){
     return(1, true, [uint256(1),2,5]);
 }
+
+Solidity中变量按作用域划分有三种，分别是状态变量（state variable），局部变量（local variable）和全局变量(global variable)
