@@ -35,3 +35,8 @@ function returnMultiple() public pure returns(uint256, bool, uint256[3] memory){
 Solidity中变量按作用域划分有三种，分别是状态变量（state variable），局部变量（local variable）和全局变量(global variable)
 
 Solidity中两个关键字，constant（常量）和immutable（不变量），让不应该变的变量保持不变。这样的做法能在节省gas的同时提升合约的安全性
+
+继承是面向对象编程很重要的组成部分，可以显著减少重复代码。如果把合约看作是对象的话，Solidity也是面向对象的编程，也支持继承
+规则
+virtual: 父合约中的函数，如果希望子合约重写，需要加上virtual关键字。
+override：子合约重写了父合约中的函数，需要加上override关键字。
