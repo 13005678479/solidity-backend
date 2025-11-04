@@ -115,3 +115,5 @@ ABI (Application Binary Interface，应用二进制接口)是与以太坊智能�
 抗碰撞性：
 弱抗碰撞性：给定一个消息x，找到另一个消息x'，使得hash(x) = hash(x')是困难的。
 强抗碰撞性：找到任意x和x'，使得hash(x) = hash(x')是困难的。
+
+ERC20是以太坊上的代币标准，来自2015年11月V神参与的EIP20
