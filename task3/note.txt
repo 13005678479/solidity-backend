@@ -76,3 +76,11 @@ Solidity中允许函数进行重载（overloading），即名字相同但输入�
 库合约是一种特殊的合约，为了提升Solidity代码的复用性和减少gas而存在
 
 Solidity支持两种特殊的回调函数，receive()和fallback()
+
+receive()函数是在合约收到ETH转账时被调用的函数。一个合约最多有一个receive()函数，声明方式与一般函数不一样，不需要function关键字：receive() external payable { ... }。
+receive()函数不能有任何的参数，不能返回任何值，必须包含external和payable。
+
+fallback()函数会在调用合约不存在的函数时被触发。可用于接收ETH，也可以用于代理合约proxy contract。
+fallback()声明时不需要function关键字，必须由external修饰，一般也会用payable修饰，用于接收ETH:fallback() external payable { ... }。
+
+call不是调用合约的推荐方法，因为不安全
