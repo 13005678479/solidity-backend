@@ -247,3 +247,66 @@ Opcodes可以根据功能分为以下几类:
 存储（Storage）指令: 这些指令用于操作EVM的账户存储。例如，将存储中的数据读取到堆栈（SLOAD）和将堆栈中的数据保存到存储（SSTORE）。这类指令的gas消耗比内存指令要大。
 控制流（Control Flow）指令: 这些指令用于EVM的控制流操作，比如跳转JUMP和跳转目标JUMPDEST。
 上下文（Context）指令: 这些指令用于获取交易和区块的上下文信息。例如，获取msg.sender（CALLER）和当前可用的gas（GAS）。
+
+EVM中的程序计数器和堆栈指令，特别是PUSH和POP
+
+基础算术运算的11个指令，包括ADD（加法），MUL（乘法），SUB（减法），和DIV（除法）
+比较运算的6个指令，包括LT（小于），GT（大于），和EQ（相等）
+位级运算的 8 个指令，包括AND（与），OR（或），和XOR（异或）
+内存（Memory）操作的4个指令，包括MSTORE，MSTORE8，MLOAD，和MSIZE
+存储（Storage）操作的2个指令：SSTORE和SLOAD
+控制流的5个指令，包括STOP，JUMP，JUMPI，JUMPDEST，和PC
+查询区块信息的9个指令，包括BLOCKHASH，COINBASE，PREVRANDAO等
+DUP是一系列的指令，总共有16个，从DUP1到DUP16，操作码范围为0x80到0x8F，gas消耗均为3
+计算数据的哈希是一个常见的操作。以太坊使用Keccak算法（SHA-3）计算数据的哈希，并提供了一个专门的操作码SHA3，Solidity中的keccak256()函数就是建立在它之上的
+
+EVM中与账户（Account）相关的4个指令，包括BALANCE, EXTCODESIZE, EXTCODECOPY, 以及 EXTCODEHASH
+
+每一笔以太坊交易都包含以下属性：
+nonce：一个与发送者账户相关的数字，表示该账户已发送的交易数。
+gasPrice：交易发送者愿意支付的单位gas价格。
+gasLimit：交易发送者为这次交易分配的最大gas数量。
+to：交易的接收者地址。当交易为合约创建时，这一字段为空。
+value：以wei为单位的发送金额。
+data：附带的数据，通常为合约调用的输入数据（calldata）或新合约的初始化代码（initcode）。
+
+EVM的返回数据，通常称为returnData，本质上是一个字节数组。它不遵循固定的数据结构，而是简单地表示为连续的字节。
+当合约函数需要返回复杂数据类型（如结构体或数组）时，这些数据将按照ABI规范被编码为字节，并存储在returnData中，供其他函数或合约访问。
+
+EVM中与异常处理相关的2个指令: REVERT 和 INVALID。当它们被触发时，交易会回滚
+
+CALL指令可以被视为以太坊的核心，它允许合约之间进行交互，让区块链上的合约不再孤立。
+
+它从堆栈中弹出7个参数，依次为：
+
+gas：为这次调用分配的gas量。
+to：被调用合约的地址。
+value：要发送的以太币数量，单位为wei。
+mem_in_start：输入数据（calldata）在内存的起始位置。
+mem_in_size：输入数据的长度。
+mem_out_start：返回数据（returnData）在内存的起始位置。
+mem_out_size：返回数据的长度。
+
+DELEGATECALL指令与CALL有许多相似之处，但关键的区别在于调用的上下文不同，它在代理合约和可升级合约中被广泛应用。它的设计目的是允许一个合约借用其他合约的代码，但代码是在原始合约的上下文中执行。这使得一份代码可以被多个合约重复使用，而无需重新部署。
+使用DELEGATECALL时msg.sender和msg.value保持不变，修改的存储变量也是原始合约的。
+
+STATICCALL指令，它和CALL指令类似，允许合约执行其他合约的代码，但是不能改变合约状态。它是Solidity中pure和view关键字的基础。
+
+CREATE指令，它可以让合约创建新的合约
+
+传统的CREATE指令通过调用者的地址和nonce来确定新合约的地址，
+而CREATE2则提供了一种新的计算方法，使我们可以在合约部署之前预知它的地址。
+
+SELFDESTRUCT指令，它可以让合约自毁。这个指令可能在未来会被弃用，见EIP-4758和EIP-6049。
+
+在EVM中，交易和执行智能合约需要消耗计算资源。为了防止用户恶意的滥用网络资源和补偿验证者所消耗的计算能源，以太坊引入了一种称为Gas的计费机制，使每一笔交易都有一个关联的成本。
+在发起交易时，用户设定一个最大Gas数量（gasLimit）和每单位Gas的价格（gasPrice）。如果交易执行超出了gasLimit，交易会回滚，但已消耗的Gas不会退还。
+
+EIP-1677提出了最小代理合约，完全用字节码写成，合约长度仅有55字节，能节省超过90%的gas
+
+因此，最小代理合约的核心元素包括：
+
+使用CALLDATACOPY复制交易的calldata。
+使用DELEGATECALL将calldata转发到逻辑合约。
+将DELEGATECALL返回的数据复制到内存。
+根据DELEGATECALL是否成功来返回结果或回滚交易。
